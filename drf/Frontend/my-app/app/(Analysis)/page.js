@@ -6,15 +6,11 @@ import {
   ArrowRight,
   ArrowUp10Icon,
   CircleDollarSignIcon,
-  CodeIcon,
   DollarSignIcon,
   FileInputIcon,
-  ImageIcon,
-  MessageSquare,
-  MusicIcon,
   PercentIcon,
   PercentSquareIcon,
-  VideoIcon,
+  
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -61,45 +57,45 @@ const tools = [
   {
     label: "75 Percentile Salary",
     icon: PercentSquareIcon,
-    href: "/code",
+    href: "/5query",
     color: "text-green-700",
     bgcolor: "text-green-700",
   },
 ];
 
 const analysis = () => {
+  const navbarHeight = "100px";
   
     const router=useRouter();
   return (
-    <div> <div className="mb-8 space-y-4 py-4">
-      <h2 className="text-2xl md:text-4xl font-bold text-center">
-        Explore the power of Data Analysis
-      </h2>
-      <p className="text-muted-foreground font-light text-sm md:text-lg text-center">
-        find the query related to Salary
-      </p>
-
+    <div style={{ paddingTop: navbarHeight }}>
+      <div className="mb-8 space-y-4 py-4">
+        <h2 className="text-2xl md:text-4xl font-bold text-center">
+          Explore the power of Data Analysis
+        </h2>
+        <p className="text-muted-foreground font-light text-sm md:text-lg text-center">
+          find the query related to Salary
+        </p>
+      </div>
+      <div className="px-4 md:px-15 lg:px-32 space-y-4">
+        {tools.map((tool) => (
+          <Card
+            onClick={() => router.push(tool.href)}
+            key={tool.href}
+            className="p-4 border-black/5 flex items-center justify-between hover:shadow-md transition cursor-pointer"
+          >
+            <div className="flex items-center gap-x-4">
+              <div className={cn("p-2 w-fit rounded-md", tool.bgcolor)}>
+                <tool.icon className={cn("w-8 h-8", tool.color)} />
+              </div>
+              <div className="font-semibold">{tool.label}</div>
+            </div>
+            <ArrowRight className="w-5 h-5" />
+          </Card>
+        ))}
+      </div>
     </div>
-    <div className="px-4 md:px-15 lg:px-32 space-y-4">
-      {tools.map((tool)=>(
-        <Card
-        onClick={()=> router.push(tool.href)}
-
-        key={tool.href}
-        className="p-4 border-black/5 flex items-center justify-between hover:shadow-md transition cursor-pointer">
-         <div className="flex items-center gap-x-4">
-          <div className={cn("p-2 w-fit rounded-md", tool.bgcolor)}>
-          <tool.icon className={cn("w-8 h-8",tool.color)} />
-          </div> 
-          <div className="font-semibold">
-            {tool.label}
-          </div>
-          </div>
-          <ArrowRight className="w-5 h-5" />
-        </Card>
-      ))}
-    </div>
-    </div>
+     
 
   )
 }
