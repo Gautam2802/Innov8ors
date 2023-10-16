@@ -40,7 +40,6 @@ class ExcelUploadView(APIView):
     parser_classes = (MultiPartParser,)
 
     def post(self, request, format=None):
-       
 
         try:
             # Create a file-like object from the uploaded content

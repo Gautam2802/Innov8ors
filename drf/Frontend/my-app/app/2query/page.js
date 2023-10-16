@@ -27,7 +27,7 @@ const Page = () => {
 
   return (
     <div>
-      <h1>This is homepage</h1>
+      
       <br />
       <label htmlFor="salaryTypeSelect">Select Salary type: </label>
       <select
