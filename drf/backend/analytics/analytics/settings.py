@@ -25,8 +25,6 @@ SECRET_KEY = 'django-insecure-@m-8#k!ntskb$u$lj7xg2%_c=u4csf(!a*_1!f+&z=)f70m-w8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -49,6 +47,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'analytics.urls'
@@ -127,3 +126,14 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+      'http://localhost:3001,'  # Add your frontend URL here
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+
+

@@ -89,10 +89,9 @@ class ExcelUploadView(APIView):
 
 
 def employee_counts_by_country(request):
-    # Use the Django ORM to query the database and count employees per country
     counts = Employees.objects.values('country').annotate(count=Count('id')).order_by('country')
 
-    # Convert the query result to a dictionary for JSON response
+    
     result = {
         'counts': [{'country': item['country'], 'count': item['count']} for item in counts]
     }

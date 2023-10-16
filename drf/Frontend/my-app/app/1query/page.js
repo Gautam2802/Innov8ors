@@ -1,88 +1,69 @@
 "use client"
-import { Button } from "@/components/ui/button";
-import React, { useState } from "react";
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 
-const Query1UI = () => {
-  const [column1, setColumn1] = useState("");
-  const [column2, setColumn2] = useState("");
-  const [column3, setColumn3] = useState("");
-  const [result, setResult] = useState(null);
+const Page = () => {
+  const [Counts, setCounts] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState(''); // Selected country state
 
-  const performQuery = () => {
-    // Make an API request to your Django backend
+  useEffect(() => {
+    // When the component mounts, fetch data from the API
+    getCounts();
+  }, []);
 
-    // Example: Fetch API
-    fetch(
-      `/api/query1?column1=${column1}&column2=${column2}&column3=${column3}`
-    )
-      .then((response) => response.json())
-      .then((data) => setResult(data))
-      .catch((error) => console.error("Error:", error));
-  };
+  const getCounts = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/api/");
+      const data = response.data.counts;
+      setCounts(data);
+    } catch (error) {
+      console.error("ERROR fetching counts");
+    }
+  }
+
+  const handleCountryChange = (event) => {
+    setSelectedCountry(event.target.value); // Update selected country state
+  }
 
   return (
     <div>
-      <h1 className="text-2xl text-gray-800 my-5 m-6 ">
-        Query 1 - Number of results: Count the total number of records in the
-        database.
-      </h1>
-
-      <label htmlFor="column1" className="m-6">
-        Select Column 1:On the basis of{" "}
-      </label>
-      <select
-        id="column1"
-        onChange={(e) => setColumn1(e.target.value)}
-        className="w-5/6 p-2 m-6 border border-gray-300 rounded"
-      >
-        {/* Options will be populated dynamically */}
-      </select>
+      <h1>This is homepage</h1>
       <br />
-      <label htmlFor="column2" className="m-6">
-        Select Column 2: On the basis of{" "}
-      </label>
+      <label htmlFor="countrySelect">Select Country: </label>
       <select
-        id="column2"
-        onChange={(e) => setColumn2(e.target.value)}
-        className="w-5/6 p-2 m-6 border border-gray-300 rounded"
+        id="countrySelect"
+        value={selectedCountry}
+        onChange={handleCountryChange}
       >
-        {/* Options will be populated dynamically */}
+        <option value="">All</option>
+        <option value="AUSTRALIA">Australia</option>
+        <option value="CANADA">Canada</option>
+        <option value="SINGAPORE">Singapore</option>
+        <option value="UNITED STATES OF AMERICA">USA</option>
       </select>
-      <br />
-
-      <label htmlFor="column3" className="m-6">
-        Select Column 3: On the basis of
-      </label>
-      <select
-        id="column3"
-        onChange={(e) => setColumn3(e.target.value)}
-        className="w-5/6 p-2 m-6 border border-gray-300 rounded"
-      >
-        {/* Options will be populated dynamically */}
-      </select>
-      <br/>
-
-      <Button
-        onClick={performQuery}
-        className="bg-blue-500 text-white p-2 px-4 m-6 rounded cursor-pointer"
-      >
-        Perform Query
-      </Button>
-
-      {result && (
-        <div>
-          <h2 className="text-2xl my-5">Query Result</h2>
-          <pre
-            id="result"
-            className="p-2 border border-gray-300 rounded bg-gray-100 whitespace-pre"
-          >
-            {JSON.stringify(result, null, 2)}
-          </pre>
-        </div>
-      )}
+      <div className='p-10'>
+        <table>
+          <thead>
+            <tr>
+              <th>Country</th>
+              <th>Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Counts.map((count, i) => (
+              // Filter results based on the selected country
+              (selectedCountry === '' || selectedCountry === count.country) && (
+                <tr key={i}>
+                  <td>{count['country']}</td>
+                  <td>{count.count}</td>
+                </tr>
+              )
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
-};
+}
 
-export default Query1UI;
-
+export default Page;
